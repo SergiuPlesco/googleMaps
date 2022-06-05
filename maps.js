@@ -39,11 +39,13 @@ function initialize() {
 					item.innerText = element.description;
 					predictionsList.appendChild(item);
 					item.addEventListener("click", (e) => {
+						console.log(element);
 						geocoder.geocode(
 							{
-								placeId: element.place_id,
+								address: element.description,
 							},
 							(geoResult, status) => {
+								console.log("geoResult", geoResult);
 								const origin = { placeId: element.place_id };
 								directionService.route(
 									{
@@ -64,6 +66,7 @@ function initialize() {
 													new google.maps.LatLng(geoResult[0].geometry.location)
 												);
 												// panorama.setPosition(panoData.location.latLng);
+
 												panorama.setPano(panoData.location.pano);
 												panorama.setPov({
 													heading: heading,
@@ -114,7 +117,18 @@ function initialize() {
 			}
 		);
 	});
-
+	// panorama.addListener("pano_changed", () => {
+	// 	console.log(panorama.getPano());
+	// });
+	// panorama.addListener("position_changed", () => {
+	// 	console.log(panorama.getPosition());
+	// });
+	// panorama.addListener("pov_changed", () => {
+	// 	console.log(panorama.getPov());
+	// });
+	// panorama.addListener("links_changed", () => {
+	// 	console.log(panorama.getLinks());
+	// });
 	map.setStreetView(panorama);
 }
 
